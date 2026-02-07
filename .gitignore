@@ -41,16 +41,10 @@ _ReSharper*/
 CustomerSupportTicketSystem.Desktop/
 
 # Ignore actual secrets
-# Desktop project (will be added later)
-CustomerSupportTicketSystem.Desktop/
-
 # Ignore actual configuration with secrets
 appsettings.json
 appsettings.Development.json
 
 # Track the example configuration
-!appsettings.Example.json
-
-# Track the example file
 !appsettings.Example.json
 
