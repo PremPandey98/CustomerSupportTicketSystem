@@ -37,10 +37,6 @@ _ReSharper*/
 *.log
 *.txt
 
-# User requested to push only API first
-CustomerSupportTicketSystem.Desktop/
-
-# Ignore actual secrets
 # Ignore actual configuration with secrets
 appsettings.json
 appsettings.Development.json
