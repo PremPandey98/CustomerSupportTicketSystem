@@ -1,0 +1,56 @@
+# Visual Studio
+.vs/
+[Bb]in/
+[Oo]bj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleasePublic/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Tooling
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+
+# Mac
+.DS_Store
+
+# Logs
+*.log
+*.txt
+
+# User requested to push only API first
+CustomerSupportTicketSystem.Desktop/
+
+# Ignore actual secrets
+# Desktop project (will be added later)
+CustomerSupportTicketSystem.Desktop/
+
+# Ignore actual configuration with secrets
+appsettings.json
+appsettings.Development.json
+
+# Track the example configuration
+!appsettings.Example.json
+
+# Track the example file
+!appsettings.Example.json
+
