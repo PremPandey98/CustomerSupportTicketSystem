@@ -221,24 +221,95 @@ public partial class UserListControl : UserControl
         var user = GetSelectedUser();
         if (user == null) return;
 
-        // Simple input dialog for new password? 
-        // Or just reset to default? 
-        // Let's use a simple input dialog or just set to a default and tell user.
-        // For better UX, let's use a standard default like "Password@123" and show message.
+        // Show dialog to enter new password
+        string newPassword = PromptForPassword($"Reset Password for '{user.Username}'");
         
-        string defaultPass = "Password@123";
-        if (MessageBox.Show($"Reset password for '{user.Username}' to default '{defaultPass}'?", "Confirm Reset",
+        if (string.IsNullOrEmpty(newPassword))
+        {
+            // User cancelled or entered empty password
+            return;
+        }
+
+        if (MessageBox.Show($"Reset password for '{user.Username}'?", "Confirm Reset",
              MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
              try
              {
-                 await _userService.ResetPasswordAsync(user.UserId, defaultPass);
-                 FormHelper.ShowSuccess($"Password reset to '{defaultPass}'.");
+                 await _userService.ResetPasswordAsync(user.UserId, newPassword);
+                 FormHelper.ShowSuccess("Password reset successfully.");
              }
              catch (Exception ex)
              {
                  FormHelper.ShowError($"Failed to reset password: {ex.Message}");
              }
+        }
+    }
+
+    private string? PromptForPassword(string title)
+    {
+        using (var form = new Form())
+        {
+            form.Text = title;
+            form.Width = 400;
+            form.Height = 200;
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.MaximizeBox = false;
+            form.MinimizeBox = false;
+
+            var lblPassword = new Label() { Left = 20, Top = 20, Text = "New Password (min 6 characters):" , Width = 340};
+            var txtPassword = new ModernTextBox() 
+            { 
+                Left = 20, 
+                Top = 50, 
+                Width = 340, 
+                PasswordChar = '*',
+                BorderRadius = 5,
+                Padding = new Padding(10, 7, 10, 7)
+            };
+            
+            var btnOk = new ModernButton() 
+            { 
+                Text = "OK", 
+                Left = 200, 
+                Width = 80, 
+                Top = 110, 
+                DialogResult = DialogResult.OK,
+                BackColor = Color.FromArgb(0, 120, 215),
+                ForeColor = Color.White,
+                BorderRadius = 5
+            };
+            
+            var btnCancel = new ModernButton() 
+            { 
+                Text = "Cancel", 
+                Left = 290, 
+                Width = 80, 
+                Top = 110, 
+                DialogResult = DialogResult.Cancel,
+                BackColor = Color.Gray,
+                ForeColor = Color.White,
+                BorderRadius = 5
+            };
+
+            btnOk.Click += (sender, e) => 
+            {
+                if (string.IsNullOrWhiteSpace(txtPassword.Text) || txtPassword.Text.Length < 6)
+                {
+                    MessageBox.Show("Password must be at least 6 characters long.", "Invalid Password", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    form.DialogResult = DialogResult.None;
+                }
+            };
+
+            form.Controls.Add(lblPassword);
+            form.Controls.Add(txtPassword);
+            form.Controls.Add(btnOk);
+            form.Controls.Add(btnCancel);
+            form.AcceptButton = btnOk;
+            form.CancelButton = btnCancel;
+
+            return form.ShowDialog() == DialogResult.OK ? txtPassword.Text : null;
         }
     }
 

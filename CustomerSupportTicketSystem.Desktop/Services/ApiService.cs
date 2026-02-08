@@ -5,9 +5,6 @@ using CustomerSupportTicketSystem.Desktop.Managers;
 
 namespace CustomerSupportTicketSystem.Desktop.Services;
 
-/// <summary>
-/// Base service class for making HTTP API calls
-/// </summary>
 public class ApiService
 {
     private readonly HttpClient _httpClient;

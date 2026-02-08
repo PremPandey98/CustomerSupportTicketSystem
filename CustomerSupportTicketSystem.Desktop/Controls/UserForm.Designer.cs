@@ -213,14 +213,14 @@ namespace CustomerSupportTicketSystem.Desktop.Controls
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(215)))));
-            this.btnSave.BorderRadius = 20;
+            this.btnSave.BorderRadius = 5;
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(260, 380);
+            this.btnSave.Location = new System.Drawing.Point(270, 380);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(150, 40);
+            this.btnSave.Size = new System.Drawing.Size(120, 40);
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -229,14 +229,14 @@ namespace CustomerSupportTicketSystem.Desktop.Controls
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Gray;
-            this.btnCancel.BorderRadius = 20;
+            this.btnCancel.BorderRadius = 5;
             this.btnCancel.FlatAppearance.BorderSize = 0;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(90, 380);
+            this.btnCancel.Location = new System.Drawing.Point(110, 380);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(150, 40);
+            this.btnCancel.Size = new System.Drawing.Size(120, 40);
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
