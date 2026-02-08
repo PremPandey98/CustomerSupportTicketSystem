@@ -26,12 +26,11 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.Email).IsUnique();
         });
 
-        // Ticket entity configuration
         modelBuilder.Entity<Ticket>(entity =>
         {
             entity.HasIndex(e => e.TicketNumber).IsUnique();
 
-            // Configure relationships
+            //relationships
             entity.HasOne(t => t.CreatedBy)
                 .WithMany(u => u.CreatedTickets)
                 .HasForeignKey(t => t.CreatedByUserId)

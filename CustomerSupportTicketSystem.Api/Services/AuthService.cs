@@ -22,7 +22,6 @@ public class AuthService : IAuthService
 
     public async Task<LoginResponseDto?> AuthenticateAsync(LoginRequestDto loginDto)
     {
-        // Find user by username
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
 
@@ -31,7 +30,6 @@ public class AuthService : IAuthService
             return null;
         }
 
-        // Verify password using BCrypt
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash);
         
         if (!isPasswordValid)
@@ -39,7 +37,6 @@ public class AuthService : IAuthService
             return null;
         }
 
-        // Generate JWT token
         var token = GenerateJwtToken(user);
 
         return new LoginResponseDto

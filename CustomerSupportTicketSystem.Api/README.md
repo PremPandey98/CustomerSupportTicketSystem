@@ -380,10 +380,3 @@ VALUES ('newuser', 'BCRYPT_HASH_HERE', 'User Name', 'email@example.com', 'User')
 
 Generate BCrypt hash using the `PasswordHashGenerator.cs` helper.
 
-## 📄 License
-
-This project is for educational/assignment purposes.
-
----
-
-**For questions or issues, please contact the development team.**

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CustomerSupportTicketSystem.API.DTOs;
 using CustomerSupportTicketSystem.API.Services;
+using System.Security.Claims;
 
 namespace CustomerSupportTicketSystem.API.Controllers;
 

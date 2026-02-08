@@ -20,7 +20,6 @@ public class TicketService : ITicketService
         if (!IsValidPriority(createDto.Priority))
             throw new ArgumentException("Invalid priority. Must be Low, Medium, or High.");
 
-        // Generate ticket number
         var ticketNumber = await GenerateTicketNumberAsync();
 
         var ticket = new Ticket
@@ -36,7 +35,6 @@ public class TicketService : ITicketService
 
         _context.Tickets.Add(ticket);
         
-        // Save ticket first to get the TicketId
         await _context.SaveChangesAsync();
 
         // Add initial status history (now ticket.TicketId has a value)
@@ -70,10 +68,8 @@ public class TicketService : ITicketService
             .Include(t => t.CreatedBy)
             .Include(t => t.AssignedToAdmin);
 
-        // Role-based filtering
         if (userRole != "Admin")
         {
-            // Users see only their tickets
             query = query.Where(t => t.CreatedByUserId == userId);
         }
 
@@ -106,13 +102,10 @@ public class TicketService : ITicketService
         if (ticket == null)
             return null;
 
-        // Check access permissions
         if (userRole != "Admin" && ticket.CreatedByUserId != userId)
-            return null; // User can only view their own tickets
+            return null;
 
         var ticketDto = MapToTicketDetailsDto(ticket);
-
-        // Filter internal comments for non-admins
         if (userRole != "Admin")
         {
             ticketDto.Comments = ticketDto.Comments.Where(c => !c.IsInternal).ToList();
@@ -127,11 +120,9 @@ public class TicketService : ITicketService
         if (ticket == null)
             throw new KeyNotFoundException("Ticket not found");
 
-        // Prevent assignment to closed tickets
         if (ticket.Status == "Closed")
             throw new InvalidOperationException("Cannot assign a closed ticket");
 
-        // Verify admin user exists
         var adminUser = await _context.Users.FindAsync(assignDto.AssignedToAdminId);
         if (adminUser == null || adminUser.Role != "Admin")
             throw new ArgumentException("Invalid admin user");
@@ -139,7 +130,6 @@ public class TicketService : ITicketService
         var oldAssignedTo = ticket.AssignedToAdminId;
         ticket.AssignedToAdminId = assignDto.AssignedToAdminId;
 
-        // Log assignment in history
         var history = new TicketStatusHistory
         {
             TicketId = ticketId,
@@ -162,11 +152,9 @@ public class TicketService : ITicketService
         if (ticket == null)
             throw new KeyNotFoundException("Ticket not found");
 
-        // Prevent modifications to closed tickets
         if (ticket.Status == "Closed")
             throw new InvalidOperationException("Cannot modify a closed ticket");
 
-        // Validate status
         if (!IsValidStatus(statusDto.NewStatus))
             throw new ArgumentException("Invalid status. Must be Open, In Progress, or Closed.");
 
@@ -200,15 +188,12 @@ public class TicketService : ITicketService
         if (ticket == null)
             throw new KeyNotFoundException("Ticket not found");
 
-        // Users can only comment on their own tickets
         if (userRole != "Admin" && ticket.CreatedByUserId != userId)
             throw new UnauthorizedAccessException("Cannot comment on this ticket");
 
-        // Prevent comments on closed tickets
         if (ticket.Status == "Closed")
             throw new InvalidOperationException("Cannot add comments to a closed ticket");
 
-        // Only admins can add internal comments
         if (commentDto.IsInternal && userRole != "Admin")
             throw new UnauthorizedAccessException("Only admins can add internal comments");
 
@@ -243,7 +228,6 @@ public class TicketService : ITicketService
         return admins;
     }
 
-    // Helper methods
     private async Task<string> GenerateTicketNumberAsync()
     {
         var lastTicket = await _context.Tickets
